@@ -1,0 +1,41 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+class CreateShoppinglistsTable extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('shoppinglists', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->timestamps();
+            $table->date('until');
+            $table->double('cost')->nullable();
+            $table->boolean('done')->default(false);
+
+            $table->bigInteger('user_creator_id')->unsigned();
+            $table->foreign('user_creator_id')->references('id')->on('users')->onDelete('cascade');
+
+
+            $table->bigInteger('user_helper_id')->unsigned();
+            $table->foreign('user_helper_id')->references('id')->on('users')->onDelete('cascade');
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('shoppinglists');
+    }
+}
