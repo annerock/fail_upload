@@ -24,7 +24,7 @@ class CreateShoppinglistsTable extends Migration
             $table->foreign('user_creator_id')->references('id')->on('users')->onDelete('cascade');
 
 
-            $table->bigInteger('user_helper_id')->unsigned();
+            $table->bigInteger('user_helper_id')->unsigned()->nullable();
             $table->foreign('user_helper_id')->references('id')->on('users')->onDelete('cascade');
         });
     }

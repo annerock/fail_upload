@@ -18,8 +18,8 @@ class UsersTableSeeder extends Seeder
         $user1->firstname = 'Hannelore';
         $user1->lastname = 'Mayr';
         $user1->address = 'Bahnhofstrasse 97, 4230 Pregarten';
-        $user1->email = 'hannelore@gmx.at';
-        $user1->password = bcrypt('mayr');
+        $user1->email = 'hannelore.mayr@gmx.at';
+        $user1->password = bcrypt('mayr2020');
         $user1->helper = false;
 
         $user1->save();

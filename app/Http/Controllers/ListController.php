@@ -22,7 +22,6 @@ class ListController extends Controller
             ->with(['user_helper', 'user_creator', 'items', 'comments'])
             ->first();
         return $list;
-
     }
 
 
@@ -87,7 +86,7 @@ class ListController extends Controller
                 // save images
                 if (isset($request['items']) && is_array($request['items'])) {
                     foreach ($request['items'] as $item) {
-                        $item = Item::create([
+                        $item = Item::firstOrNew([
                             'description'=>$item['description'],
                             'amount'=>$item['amount'],
                             'maxPrice'=>$item['maxPrice'],
@@ -95,6 +94,7 @@ class ListController extends Controller
                         $list->items()->save($item);
                     }
                 }
+                $list->save();
 
             }
             DB::commit();
@@ -105,7 +105,7 @@ class ListController extends Controller
         catch (\Exception $e) {
             // rollback all queries
             DB::rollBack();
-            return response()->json("updating shoppinglist failed: " . $e->getMessage(), 420);
+            return response()->json("updating shoppinglist failed: ".$e->getMessage(), 420);
         }
     }
 
@@ -122,8 +122,11 @@ class ListController extends Controller
         }
         else
             throw new \Exception("shoppinglist couldn't be deleted - it does not exist");
-        return response()->json('shoppinglist (' . $id . ') successfully deleted', 200);
+        return response()->json('shoppinglist ('.$id.') successfully deleted', 200);
     }
+
+
+
 
 
 

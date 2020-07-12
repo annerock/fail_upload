@@ -14,8 +14,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('lists', 'ListController@index');
-Route::get('list/{id}', 'ListController@show');
-Route::post('list', 'ListController@save');
-Route::put('list/{id}', 'ListController@update');
-Route::delete('list/{id}', 'ListController@delete');
+Route::group(['middleware' => ['api', 'cors']], function (){
+    Route::post('auth/login', 'Auth\ApiAuthController@login');
+    Route::get('lists', 'ListController@index');
+    Route::get('list/{id}', 'ListController@show');
+});
+
+
+Route::group(['middleware' => ['api', 'cors', 'auth.jwt']], function() {
+    Route::post('auth/logout', 'Auth\ApiAuthController@logout');
+    Route::post('list', 'ListController@save');
+    Route::put('list/{id}', 'ListController@update');
+    Route::delete('list/{id}', 'ListController@delete');
+});
